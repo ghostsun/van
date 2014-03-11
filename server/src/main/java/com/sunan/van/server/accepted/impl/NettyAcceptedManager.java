@@ -53,7 +53,7 @@ public class NettyAcceptedManager extends SimpleChannelInboundHandler<String> im
 	            response = "Have a good day!\r\n";
 	            close = true;
 	        } else {
-	            response = "ok\r\n";
+	            response = "ok";
 	        }
 
 	        // We do not need to write a ChannelBuffer here.
