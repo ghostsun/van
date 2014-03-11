@@ -4,6 +4,8 @@ public class Message {
 	
 	private String id;
 	
+	private String topic;
+	
 	private String message;
 
 	public String getId() {
@@ -20,6 +22,14 @@ public class Message {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public String getTopic() {
+		return topic;
+	}
+
+	public void setTopic(String topic) {
+		this.topic = topic;
 	}
 	
 	
