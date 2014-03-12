@@ -88,14 +88,14 @@ public class TestVanClient {
 	
 	
 	public void register(String topic, Channel ch) throws InterruptedException{
-		String registerMsg = "regitster,sub," + topic;
-		ChannelFuture lastWriteFuture = null;
+		String registerMsg = "register,sub," + topic + "\r\n";
+//		ChannelFuture lastWriteFuture = null;
 		
-		lastWriteFuture = ch.writeAndFlush(registerMsg);
+		ch.writeAndFlush(registerMsg);
 		
-		if (lastWriteFuture != null) {
-			lastWriteFuture.sync();
-		}
+//		if (lastWriteFuture != null) {
+//			lastWriteFuture.sync();
+//		}
 	}
 
 	public static void main(String[] args) throws Exception {

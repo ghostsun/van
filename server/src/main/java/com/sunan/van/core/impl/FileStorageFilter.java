@@ -14,7 +14,7 @@ public class FileStorageFilter implements VanFilter {
 	@Override
 	public Message doFilter(Message msg) {
 		
-		log.info("storage message: " + msg);
+		log.info("storage message: id=" + msg.getId() + ",topic=" + msg.getTopic() + ",message=" + msg.getMessage());
 		acceptedMessageLog.info(msg.getId() + "," + msg.getMessage());
 		return msg;
 	}

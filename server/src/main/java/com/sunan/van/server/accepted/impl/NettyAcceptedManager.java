@@ -15,13 +15,15 @@ import org.slf4j.LoggerFactory;
 import com.sunan.van.core.Message;
 import com.sunan.van.core.VanFilterChain;
 import com.sunan.van.server.accepted.AcceptedManager;
-import com.sunan.van.topicmanager.SubTopicCache;
+import com.sunan.van.server.register.ClientRegister;
+import com.sunan.van.server.register.ClientRegisterBean;
 
 @Sharable
 public class NettyAcceptedManager extends SimpleChannelInboundHandler<String> implements AcceptedManager{
 	private static Logger log = LoggerFactory.getLogger(NettyAcceptedManager.class);
 	
 	private VanFilterChain filterChain;
+	private ClientRegister register;
 
 	    @Override
 	    public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -44,15 +46,22 @@ public class NettyAcceptedManager extends SimpleChannelInboundHandler<String> im
 	    	
 	    	if(request != null && !request.equals("")){
 	    		if(request.startsWith("register")) {
+	    			
 		        	String[] requestMsg = request.split(",");
 		        	if(requestMsg.length > 2 && requestMsg[1].equals("sub") && requestMsg[2] != null && !requestMsg[2].equals("")){
-		        		SubTopicCache.put(requestMsg[2], ctx.channel());
-		        		response = "register success";
-		        		log.info("sub client " + response);
-		        	}else{
+		        		ClientRegisterBean registerBean = new ClientRegisterBean("", requestMsg[2], ctx.channel());
+		        		if(register.register(registerBean)){
+		        			response = "register success";
+			        		log.info("sub client " + response);
+		        		}else{
+		        			close = true;
+		        		}
+		        		
+		        	}
+		        	
+		        	if(close){
 		        		response = "register failure";
 		        		log.info("sub client " + response);
-		        		close = true;
 		        	}
 	    		}else{
 		    		message.setId("");
@@ -71,17 +80,6 @@ public class NettyAcceptedManager extends SimpleChannelInboundHandler<String> im
 	        } else if ("bye".equals(request.toLowerCase())) {
 	            response = "Have a good day!\r\n";
 	            close = true;
-	        } else if(request.startsWith("register")) {
-	        	String[] requestMsg = request.split(",");
-	        	if(requestMsg.length > 2 && requestMsg[1].equals("sub") && requestMsg[2] != null && !requestMsg[2].equals("")){
-	        		SubTopicCache.put(requestMsg[2], ctx.channel());
-	        		response = "register success";
-	        		log.info("sub client " + response);
-	        	}else{
-	        		response = "register failure";
-	        		log.info("sub client " + response);
-	        		close = true;
-	        	}
 	        } else {
 	            response = "ok";
 	        }
