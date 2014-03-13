@@ -4,11 +4,15 @@ import io.netty.channel.Channel;
 
 public class ClientRegisterBean {
 	
+	public static final String publisher = "PUBLISHER";
+	public static final String subscribers = "SUBSCRIBERS";
+	
 	private String clientId;
 	private String subTopic;
 	private Channel clientChannel;
+	private String group;
 	
-	public ClientRegisterBean(String clientId, String subTopic, Channel clientChannl){
+	public ClientRegisterBean(String clientId, String subTopic, Channel clientChannel){
 		this.clientId = clientId;
 		this.subTopic = subTopic;
 		this.clientChannel = clientChannel;
@@ -31,6 +35,14 @@ public class ClientRegisterBean {
 	}
 	public void setClientChannel(Channel clientChannel) {
 		this.clientChannel = clientChannel;
+	}
+
+	public String getGroup() {
+		return group;
+	}
+
+	public void setGroup(String group) {
+		this.group = group;
 	}
 	
 	

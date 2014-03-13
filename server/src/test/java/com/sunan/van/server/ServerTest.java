@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import com.sunan.van.core.VanFilterChain;
 import com.sunan.van.core.impl.FileStorageFilter;
+import com.sunan.van.server.register.ClientRegister;
 
 public class ServerTest extends TestCase {
 	
@@ -16,8 +17,10 @@ public class ServerTest extends TestCase {
 		
 		Server server = new Server(port);
 		VanFilterChain vanFilterChain = new VanFilterChain();
+		ClientRegister register = new ClientRegister();
 		vanFilterChain.add(new FileStorageFilter());
 		server.setVanFilterChain(vanFilterChain);
+		server.setRegister(register);
 //		server.setAcceptedManager(new NettyAcceptedManager());
 		try {
 			server.startup();

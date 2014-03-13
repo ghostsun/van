@@ -6,11 +6,12 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 import com.sunan.van.core.VanFilterChain;
-import com.sunan.van.server.accepted.AcceptedManager;
+import com.sunan.van.server.register.ClientRegister;
 
 public class Server {
 //	private AcceptedManager acceptedManager;	
 	private VanFilterChain vanFilterChain;
+	private ClientRegister register;
 	 private final int port;
 	 
 	    public Server(int port) {
@@ -32,7 +33,7 @@ public class Server {
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup)
              .channel(NioServerSocketChannel.class)
-             .childHandler(new NettyServerInitializer(vanFilterChain));
+             .childHandler(new NettyServerInitializer(vanFilterChain, register));
 
             b.bind(port).sync().channel().closeFuture().sync();
         } finally {
@@ -69,6 +70,16 @@ public class Server {
 	public void setVanFilterChain(VanFilterChain vanFilterChain) {
 		this.vanFilterChain = vanFilterChain;
 	}
+
+	public ClientRegister getRegister() {
+		return register;
+	}
+
+	public void setRegister(ClientRegister register) {
+		this.register = register;
+	}
+	
+	
 
 //	    public static void main(String[] args) throws Exception {
 //	        int port;
