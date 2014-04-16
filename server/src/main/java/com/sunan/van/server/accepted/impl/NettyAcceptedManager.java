@@ -66,9 +66,16 @@ public class NettyAcceptedManager extends SimpleChannelInboundHandler<String>
 							close = true;
 						}
 
-					}					
+					}else{
+						close = true;
+					}
+				}else{
+					close = true;
 				}
+			}else{
+				close = true;
 			}
+			
 			if (close) {
 				response = "register failure";
 				log.info("sub client " + response);

@@ -45,7 +45,7 @@
        </triggeringPolicy>
     </appender> 
  
-  <root level="INFO">
+  <root level="DEBUG">
      
     <appender-ref ref="STDOUT" />
     <!--
@@ -54,6 +54,6 @@
   </root>   
 	
 	<logger name="acceptedMessageLog" level="INFO" additivity="false">
-		<appender-ref ref="ACCEPTEDMESSAGEFILE" />
+		<appender-ref ref="STDOUT" />
 	</logger>
  </configuration>
