@@ -5,17 +5,28 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
+import com.sunan.van.codec.Codec;
 import com.sunan.van.core.VanFilterChain;
+import com.sunan.van.server.message.Message;
 import com.sunan.van.server.register.ClientRegister;
 
 public class Server {
-//	private AcceptedManager acceptedManager;	
-	private VanFilterChain vanFilterChain;
+//	private AcceptedManager acceptedManager;
+	private static Server instance = null;;
+	private VanFilterChain<Message> vanFilterChain;
 	private ClientRegister register;
+	private Codec codec;
 	 private final int port;
 	 
-	    public Server(int port) {
+	    private Server(int port) {
 	        this.port = port;
+	    }
+	    
+	    public static Server getInstance(int port){
+	    	if(instance == null){
+	    		instance = new Server(port);
+	    	}
+	    	return instance;
 	    }
 	
 	private void init() throws InterruptedException{
@@ -33,7 +44,7 @@ public class Server {
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup)
              .channel(NioServerSocketChannel.class)
-             .childHandler(new NettyServerInitializer(vanFilterChain, register));
+             .childHandler(new NettyServerInitializer(vanFilterChain, register, codec));
 
             b.bind(port).sync().channel().closeFuture().sync();
         } finally {
@@ -63,11 +74,11 @@ public class Server {
 //		this.acceptedManager = acceptedManager;
 //	}
 
-	public VanFilterChain getVanFilterChain() {
+	public VanFilterChain<Message> getVanFilterChain() {
 		return vanFilterChain;
 	}
 
-	public void setVanFilterChain(VanFilterChain vanFilterChain) {
+	public void setVanFilterChain(VanFilterChain<Message> vanFilterChain) {
 		this.vanFilterChain = vanFilterChain;
 	}
 
@@ -78,6 +89,19 @@ public class Server {
 	public void setRegister(ClientRegister register) {
 		this.register = register;
 	}
+
+	public Codec getCodec() {
+		return codec;
+	}
+
+	public void setCodec(Codec codec) {
+		this.codec = codec;
+	}
+
+	public int getPort() {
+		return port;
+	}
+	
 	
 	
 

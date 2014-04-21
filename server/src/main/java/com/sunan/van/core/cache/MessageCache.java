@@ -3,10 +3,11 @@ package com.sunan.van.core.cache;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.sunan.van.core.Message;
+import com.sunan.van.server.message.Message;
 
-public class MessageCache {
+public class MessageCache<T> {
 	
+	@SuppressWarnings("rawtypes")
 	private static final Map<String, Message> messageCache = new HashMap<String, Message>();
 	
 	public void put(String messageId, Message message){

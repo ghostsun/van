@@ -1,7 +1,8 @@
 package com.sunan.van.core;
 
-public interface VanFilter {
+
+public interface VanFilter<T> {
 	
-	public Message doFilter(Message msg);
+	public T doFilter(T msg);
 
 }

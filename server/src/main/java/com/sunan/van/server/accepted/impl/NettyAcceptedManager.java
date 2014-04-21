@@ -12,11 +12,10 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sunan.van.core.Message;
+import com.sunan.van.codec.Codec;
 import com.sunan.van.core.VanFilterChain;
 import com.sunan.van.server.accepted.AcceptedManager;
-import com.sunan.van.server.register.ClientRegister;
-import com.sunan.van.server.register.ClientRegisterBean;
+import com.sunan.van.server.message.Message;
 import com.sunan.van.server.register.RegisterClient;
 
 @Sharable
@@ -25,8 +24,9 @@ public class NettyAcceptedManager extends SimpleChannelInboundHandler<String>
 	private static Logger log = LoggerFactory
 			.getLogger(NettyAcceptedManager.class);
 
-	private VanFilterChain filterChain;
-	private ClientRegister register;
+	private VanFilterChain<Message> filterChain;
+//	private ClientRegister register;
+	private Codec<String, Message> codec;
 
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -42,70 +42,79 @@ public class NettyAcceptedManager extends SimpleChannelInboundHandler<String>
 	public void channelRead0(ChannelHandlerContext ctx, String request)
 			throws Exception {
 
-		Message message = new Message();
-		Message result;
+		Message message = null;
+		Message result = new Message();
 //		boolean isRegisterd = false;
 
 		boolean close = false;
-		String response = null;
+//		String response = null;
 
 		// 判断client是否注册过
+		message = codec.decoder(request);
+		
 		if (!RegisterClient.isRegister(ctx.channel())) {
-			if (request != null && !request.equals("")) {
-				if (request.startsWith("register")) {
-					String[] requestMsg = request.split(",");
-					if (requestMsg.length > 2 && requestMsg[1].equals("sub")
-							&& requestMsg[2] != null
-							&& !requestMsg[2].equals("")) {
-						ClientRegisterBean registerBean = new ClientRegisterBean(
-								"", requestMsg[2], ctx.channel());
-						if (register.register(registerBean)) {
-							response = "register success";
-							log.info("sub client " + response);
-						} else {
-							close = true;
-						}
-
-					}else{
-						close = true;
-					}
-				}else{
-					close = true;
-				}
-			}else{
-				close = true;
-			}
-			
-			if (close) {
-				response = "register failure";
-				log.info("sub client " + response);
-			}
-		} else{
-			if (request != null && !request.equals("")) {				
-					message.setId("");
-					message.setMessage(request);
-					result = filterChain.doFilter(message);
-			} else {
-				result = new Message();
-				result.setMessage("null message error!");
-			}
-			// Generate and write a response.
-			// String response;
-
-			if (request.isEmpty()) {
-				response = "Please type something.\r\n";
-			} else if ("bye".equals(request.toLowerCase())) {
-				response = "Have a good day!\r\n";
-				close = true;
-			} else {
-				response = "ok";
-			}
-
-		}
+			RegisterClient.put(ctx.channel());
+//			if (request != null && !request.equals("")) {
+//				if (request.startsWith("register")) {
+//					String[] requestMsg = request.split(",");
+//					if (requestMsg.length > 2 && requestMsg[1].equals("sub")
+//							&& requestMsg[2] != null
+//							&& !requestMsg[2].equals("")) {
+//						ClientRegisterBean registerBean = new ClientRegisterBean(
+//								"", requestMsg[2], ctx.channel());
+//						if (register.register(registerBean)) {
+//							response = "register success";
+//							log.info("sub client " + response);
+//						} else {
+//							close = true;
+//						}
+//
+//					}else{
+//						close = true;
+//					}
+//				}else{
+//					close = true;
+//				}
+//			}else{
+//				close = true;
+//			}
+//			
+//			if (close) {
+//				response = "register failure";
+//				log.info("sub client " + response);
+//			}
+		} 
+//		else{
+//			if (request != null && !request.equals("")) {				
+//					message.setId("");
+//					message.setMessage(request);
+//					result = filterChain.doFilter(message);
+//			} else {
+//				result = new Message();
+//				result.setMessage("null message error!");
+//			}
+//			// Generate and write a response.
+//			// String response;
+//
+//			if (request.isEmpty()) {
+//				response = "Please type something.\r\n";
+//			} else if ("bye".equals(request.toLowerCase())) {
+//				response = "Have a good day!\r\n";
+//				close = true;
+//			} else {
+//				response = "ok";
+//			}
+//		}
 
 		// isRegisterd = RegisterClient.isRegister(ctx.channel());
 		//
 		// if()
+		
+		if(message != null){
+			result = filterChain.doFilter(message);
+		}else{
+			result.setBody("null message error!".getBytes());
+		}
 		
 		
 		// We do not need to write a ChannelBuffer here.
@@ -113,7 +122,7 @@ public class NettyAcceptedManager extends SimpleChannelInboundHandler<String>
 		// conversion.
 		ChannelFuture future = null;
 //		if(response != null){
-			future = ctx.write(response);
+			future = ctx.write(new String(result.getBody()));
 //		}
 
 		// Close the connection after sending 'Have a good day!'
@@ -135,15 +144,19 @@ public class NettyAcceptedManager extends SimpleChannelInboundHandler<String>
 		ctx.close();
 	}
 
-	@Override
-	public void setFilterChain(VanFilterChain filterChain) {
+	public void setFilterChain(VanFilterChain<Message> filterChain) {
 		this.filterChain = filterChain;
-
 	}
 
-	public void setRegister(ClientRegister register) {
-		this.register = register;
+	@Override
+	public void setCodec(Codec codec) {
+		this.codec = codec;
+		
 	}
+
+//	public void setRegister(ClientRegister register) {
+//		this.register = register;
+//	}
 	
 	
 }
