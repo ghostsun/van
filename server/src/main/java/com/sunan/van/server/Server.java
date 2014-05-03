@@ -1,31 +1,38 @@
 package com.sunan.van.server;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
-import com.sunan.van.codec.Codec;
+import com.sunan.van.common.codec.Codec;
+import com.sunan.van.common.message.Message;
 import com.sunan.van.core.VanFilterChain;
-import com.sunan.van.server.message.Message;
+import com.sunan.van.server.config.VanServerConfig;
 import com.sunan.van.server.register.ClientRegister;
 
 public class Server {
 //	private AcceptedManager acceptedManager;
-	private static Server instance = null;;
-	private VanFilterChain<Message> vanFilterChain;
-	private ClientRegister register;
-	private Codec codec;
-	 private final int port;
+	ApplicationContext context = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+	private static Server instance = new Server();
+	@SuppressWarnings("unchecked")
+	private VanFilterChain<Message> vanFilterChain = context.getBean(VanFilterChain.class);
+	VanServerConfig vanServerconfig = context.getBean(VanServerConfig.class);
+//	private ClientRegister register;
+	private Codec codec = context.getBean(Codec.class);
+//	private int port;
 	 
-	    private Server(int port) {
-	        this.port = port;
-	    }
+//	    private Server(int port) {
+//	        this.port = port;
+//	    }
 	    
+	private Server(){
+		
+	}
 	    public static Server getInstance(int port){
-	    	if(instance == null){
-	    		instance = new Server(port);
-	    	}
 	    	return instance;
 	    }
 	
@@ -44,9 +51,9 @@ public class Server {
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup)
              .channel(NioServerSocketChannel.class)
-             .childHandler(new NettyServerInitializer(vanFilterChain, register, codec));
+             .childHandler(new NettyServerInitializer(vanFilterChain, null, codec));
 
-            b.bind(port).sync().channel().closeFuture().sync();
+            b.bind(vanServerconfig.getPort()).sync().channel().closeFuture().sync();
         } finally {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
@@ -82,13 +89,13 @@ public class Server {
 		this.vanFilterChain = vanFilterChain;
 	}
 
-	public ClientRegister getRegister() {
-		return register;
-	}
-
-	public void setRegister(ClientRegister register) {
-		this.register = register;
-	}
+//	public ClientRegister getRegister() {
+//		return register;
+//	}
+//
+//	public void setRegister(ClientRegister register) {
+//		this.register = register;
+//	}
 
 	public Codec getCodec() {
 		return codec;
@@ -97,10 +104,13 @@ public class Server {
 	public void setCodec(Codec codec) {
 		this.codec = codec;
 	}
-
-	public int getPort() {
-		return port;
+	protected VanServerConfig getVanServerconfig() {
+		return vanServerconfig;
 	}
+	protected void setVanServerconfig(VanServerConfig vanServerconfig) {
+		this.vanServerconfig = vanServerconfig;
+	}
+
 	
 	
 	

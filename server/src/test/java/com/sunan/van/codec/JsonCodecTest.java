@@ -5,9 +5,11 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.sunan.van.server.message.Message;
-import com.sunan.van.server.message.Publisher;
-import com.sunan.van.server.message.Subscriber;
+import com.sunan.van.common.codec.Codec;
+import com.sunan.van.common.codec.JsonMessageCodec;
+import com.sunan.van.common.message.Message;
+import com.sunan.van.common.message.Publisher;
+import com.sunan.van.common.message.Subscriber;
 
 public class JsonCodecTest {
 	

@@ -1,11 +1,11 @@
-package com.sunan.van.server.message;
+package com.sunan.van.common.message;
 
 /**
- * Subscriber
+ * Publisher
  * @author sunan
- * @Time 2014-4-16 下午7:05:56
+ * @Time 2014-4-16 下午7:05:50
  */
-public class Subscriber {
+public class Publisher {
 	
 	private String ip;
 	

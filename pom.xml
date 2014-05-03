@@ -17,6 +17,23 @@
   </properties>
 
   <dependencies>
+  <!--
+	<dependency>
+		<groupId>${project.groupId}</groupId>
+		<artifactId>van-client</artifactId>
+		<version>${project.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>${project.groupId}</groupId>
+		<artifactId>van-common</artifactId>
+		<version>${project.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>${project.groupId}</groupId>
+		<artifactId>van-server</artifactId>
+		<version>${project.version}</version>
+	</dependency>
+	-->
 	<dependency>
 		<groupId>io.netty</groupId>
 		<artifactId>netty-all</artifactId>
@@ -93,6 +110,7 @@
             
   </dependencies>
   <modules>
+	<module>common</module>
     <module>server</module>
     <module>client</module>
   </modules>

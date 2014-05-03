@@ -12,10 +12,10 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sunan.van.codec.Codec;
+import com.sunan.van.common.codec.Codec;
+import com.sunan.van.common.message.Message;
 import com.sunan.van.core.VanFilterChain;
 import com.sunan.van.server.accepted.AcceptedManager;
-import com.sunan.van.server.message.Message;
 import com.sunan.van.server.register.RegisterClient;
 
 @Sharable

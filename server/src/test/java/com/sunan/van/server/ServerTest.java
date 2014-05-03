@@ -3,14 +3,18 @@ package com.sunan.van.server;
 import junit.framework.TestCase;
 
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.sunan.van.codec.StringCodec;
+import com.sunan.van.common.codec.StringCodec;
+import com.sunan.van.common.message.Message;
 import com.sunan.van.core.VanFilterChain;
 import com.sunan.van.core.impl.MockVanFilter;
-import com.sunan.van.server.message.Message;
 import com.sunan.van.server.register.ClientRegister;
 
 public class ServerTest extends TestCase {
+	
+	 ApplicationContext context = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
 	
 	@Test
 	public void testStartup(){
@@ -18,14 +22,15 @@ public class ServerTest extends TestCase {
 		int port = 8080;
 		
 		Server server = Server.getInstance(port);
-		VanFilterChain<Message> vanFilterChain = new VanFilterChain<Message>();
-		ClientRegister register = new ClientRegister();
+		server.getVanFilterChain().add(context.getBean(MockVanFilter.class));
+//		VanFilterChain<Message> vanFilterChain = new VanFilterChain<Message>();
+//		ClientRegister register = new ClientRegister();
 //		vanFilterChain.add(new FileStorageFilter());
-		vanFilterChain.add(new MockVanFilter());
-		server.setVanFilterChain(vanFilterChain);
-		server.setRegister(register);
+//		vanFilterChain.add(new MockVanFilter());
+//		server.setVanFilterChain(vanFilterChain);
+//		server.setRegister(register);
 //		server.setCodec(new JsonMessageCodec());
-		server.setCodec(new StringCodec());
+//		server.setCodec(new StringCodec());
 		
 //		server.setAcceptedManager(new NettyAcceptedManager());
 		try {

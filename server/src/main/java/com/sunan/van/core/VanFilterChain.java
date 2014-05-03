@@ -21,4 +21,14 @@ public class VanFilterChain<T> {
 		return message;
 	}
 
+	protected List<VanFilter<T>> getFilterList() {
+		return filterList;
+	}
+
+	protected void setFilterList(List<VanFilter<T>> filterList) {
+		this.filterList = filterList;
+	}
+	
+	
+
 }

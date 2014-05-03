@@ -8,10 +8,10 @@ import io.netty.handler.codec.Delimiters;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 
-import com.sunan.van.codec.Codec;
+import com.sunan.van.common.codec.Codec;
+import com.sunan.van.common.message.Message;
 import com.sunan.van.core.VanFilterChain;
 import com.sunan.van.server.accepted.impl.NettyAcceptedManager;
-import com.sunan.van.server.message.Message;
 import com.sunan.van.server.register.ClientRegister;
 
 public class NettyServerInitializer extends ChannelInitializer<SocketChannel>{

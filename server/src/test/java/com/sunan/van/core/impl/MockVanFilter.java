@@ -3,8 +3,8 @@ package com.sunan.van.core.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.sunan.van.common.message.Message;
 import com.sunan.van.core.VanFilter;
-import com.sunan.van.server.message.Message;
 
 public class MockVanFilter implements VanFilter<Message> {
 	

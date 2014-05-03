@@ -1,4 +1,4 @@
-package com.sunan.van.server.message;
+package com.sunan.van.common.message;
 
 /**
  * Message

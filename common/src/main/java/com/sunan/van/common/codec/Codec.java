@@ -1,4 +1,4 @@
-package com.sunan.van.codec;
+package com.sunan.van.common.codec;
 
 /**
  * Codec
@@ -31,5 +31,6 @@ public interface Codec<T, R> {
 	 * @return
 	 */
 	public T format(T t);
+	
 
 }

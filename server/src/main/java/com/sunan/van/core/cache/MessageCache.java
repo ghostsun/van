@@ -3,7 +3,7 @@ package com.sunan.van.core.cache;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.sunan.van.server.message.Message;
+import com.sunan.van.common.message.Message;
 
 public class MessageCache<T> {
 	

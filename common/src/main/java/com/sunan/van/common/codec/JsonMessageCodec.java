@@ -1,9 +1,9 @@
-package com.sunan.van.codec;
+package com.sunan.van.common.codec;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
-import com.sunan.van.server.message.Message;
+import com.sunan.van.common.message.Message;
 
 public class JsonMessageCodec implements Codec<String, Message> {
 	

@@ -1,6 +1,6 @@
-package com.sunan.van.server.message;
+package com.sunan.van.common.message;
 
-import com.sunan.van.codec.Codec;
+import com.sunan.van.common.codec.Codec;
 
 public class MessageBuilder<T> {
 	
