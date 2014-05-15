@@ -15,6 +15,10 @@ public class MockVanFilter implements VanFilter<Message> {
 		log.info("MockVanFilter.doFilter: " + new String(msg.getBody()));
 		Message response = new Message();
 		response.setBody(msg.getBody());
+		String stringMessage = new String(msg.getBody());
+		if("quit".equals(stringMessage)){
+			
+		}
 		msg.setResponse(response);
 		return msg;
 	}

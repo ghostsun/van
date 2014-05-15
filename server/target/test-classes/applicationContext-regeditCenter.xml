@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="vanServerconfig" class="com.sunan.van.server.config.VanServerConfig">
+		<property name="port" value="8080" />
+	</bean>
+	<bean id="vanFilterChain" class="com.sunan.van.core.VanFilterChain" >
+	<!-- 
+		<property name="filterList" >     
+	        <list>  
+	            <value>dispatcherFilter</value> 
+	            <ref bean="mockVanFilter"/>
+	        </list>  
+	    </property>
+	     -->  
+	</bean>
+	
+	<bean id="dispatcherFilter" class="com.sunan.van.core.impl.DispatcherFilter" />
+	<bean id="fileStorageFilter" class="com.sunan.van.core.impl.FileStorageFilter" />
+	<bean id="mockVanFilter" class="com.sunan.van.core.impl.MockVanFilter" />
+	<bean id="configServerFilter" class="com.sunan.van.core.impl.ConfigServerFilter" />
+	<bean id="codec" class="com.sunan.van.common.codec.StringCodec" />
+</beans>

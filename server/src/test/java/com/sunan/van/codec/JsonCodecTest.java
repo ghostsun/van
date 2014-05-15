@@ -26,12 +26,12 @@ public class JsonCodecTest {
 		p.setIp("127.0.0.1");
 		p.setPort("123123");
 		p.setGroupId("group1");
-		message.setPublisher(p);
+//		message.setPublisher(p);
 		Subscriber s = new Subscriber();
 		s.setIp("127.0.0.1");
 		s.setPort("321321");
 		s.setGroupId("group1");
-		message.setSubscriber(s);
+//		message.setSubscriber(s);
 		message.setTopic("test");
 	}
 	

@@ -6,11 +6,11 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.sunan.van.core.impl.MockVanFilter;
+import com.sunan.van.core.impl.ConfigServerFilter;
 
-public class ServerTest extends TestCase {
+public class TestRegeditCenter  extends TestCase {
 	
-	 ApplicationContext context = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+	 ApplicationContext context = new ClassPathXmlApplicationContext("classpath:applicationContext-regeditCenter.xml");
 	
 	@Test
 	public void testStartup(){
@@ -18,7 +18,7 @@ public class ServerTest extends TestCase {
 		int port = 8080;
 		
 		Server server = Server.getInstance(port);
-		server.getVanFilterChain().add(context.getBean(MockVanFilter.class));
+		server.getVanFilterChain().add(context.getBean(ConfigServerFilter.class));
 //		VanFilterChain<Message> vanFilterChain = new VanFilterChain<Message>();
 //		ClientRegister register = new ClientRegister();
 //		vanFilterChain.add(new FileStorageFilter());
@@ -37,5 +37,4 @@ public class ServerTest extends TestCase {
 		}
 		
 	}
-
 }

@@ -8,10 +8,6 @@ package com.sunan.van.common.message;
  */
 public class Message {
 	
-	private Publisher publisher;
-	
-	private Subscriber subscriber;
-	
 	private String id;
 	
 	private String topic;
@@ -19,22 +15,10 @@ public class Message {
 	private byte[] body;
 	
 	private Message response;
-
-	public Publisher getPublisher() {
-		return publisher;
-	}
-
-	public void setPublisher(Publisher publisher) {
-		this.publisher = publisher;
-	}
-
-	public Subscriber getSubscriber() {
-		return subscriber;
-	}
-
-	public void setSubscriber(Subscriber subscriber) {
-		this.subscriber = subscriber;
-	}
+	
+	private String send;
+	
+	private String client;
 
 	public String getId() {
 		return id;
@@ -60,8 +44,6 @@ public class Message {
 		this.body = body;
 	}
 	
-	
-
 	public Message getResponse() {
 		return response;
 	}
@@ -69,11 +51,26 @@ public class Message {
 	public void setResponse(Message response) {
 		this.response = response;
 	}
+	
+	public String getSend() {
+		return send;
+	}
 
-	public String toString(){
-		return "id: " + id + ", topic: " + topic + ", body: " + new String(body) + ", publisher: { " + publisher + "}, subscriber: { " + subscriber + " }";
+	public void setSend(String send) {
+		this.send = send;
 	}
 	
 	
 
+	public String getClient() {
+		return client;
+	}
+
+	public void setClient(String client) {
+		this.client = client;
+	}
+
+	public String toString(){
+		return "id: " + id + ", topic: " + topic + ", body: " + new String(body) + ", send: " + send + ", client: " + client;
+	}
 }

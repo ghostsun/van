@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import com.sunan.van.common.codec.Codec;
 import com.sunan.van.common.message.Message;
 import com.sunan.van.core.VanFilterChain;
+import com.sunan.van.core.cache.ClientCache;
 import com.sunan.van.server.accepted.AcceptedManager;
 import com.sunan.van.server.register.RegisterClient;
 
@@ -35,15 +36,23 @@ public class NettyAcceptedManager extends SimpleChannelInboundHandler<String>
 		ctx.write("Welcome to " + InetAddress.getLocalHost().getHostName()
 				+ "!\r\n");
 		ctx.write("It is " + new Date() + " now.\r\n");
+		// add client cache
+		
+		System.out.println(ctx.channel().remoteAddress());
+		
 		ctx.flush();
 	}
 
 	@Override
 	public void channelRead0(ChannelHandlerContext ctx, String request)
 			throws Exception {
+		
+		System.out.println("remoteIP: " + ctx.channel().remoteAddress());
+		System.out.println("ctx name: " + ctx.name());
 
 		Message message = null;
 		Message result = new Message();
+		String client = ctx.channel().remoteAddress().toString();
 //		boolean isRegisterd = false;
 
 		boolean close = false;
@@ -51,6 +60,7 @@ public class NettyAcceptedManager extends SimpleChannelInboundHandler<String>
 
 		// 判断client是否注册过
 		message = codec.decoder(request);
+		message.setClient(client);
 		
 		if (!RegisterClient.isRegister(ctx.channel())) {
 			RegisterClient.put(ctx.channel());
@@ -141,6 +151,8 @@ public class NettyAcceptedManager extends SimpleChannelInboundHandler<String>
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
 			throws Exception {
 		log.warn("Unexpected exception from downstream.", cause);
+		String client = ctx.channel().remoteAddress().toString();
+		ClientCache.removeClient(client);
 		ctx.close();
 	}
 
