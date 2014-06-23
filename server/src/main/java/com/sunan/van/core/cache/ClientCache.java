@@ -44,6 +44,24 @@ public class ClientCache {
 		removeClient(client, subClientCache, dataIdSubCache);
 	}
 	
+
+	
+	public static Map<String, List<String>> getPubclientcache() {
+		return pubClientCache;
+	}
+
+	public static Map<String, List<String>> getSubclientcache() {
+		return subClientCache;
+	}
+
+	public static Map<String, List<String>> getDataidpubcache() {
+		return dataIdPubCache;
+	}
+
+	public static Map<String, List<String>> getDataidsubcache() {
+		return dataIdSubCache;
+	}
+
 	private static void removeClient(String client, Map<String, List<String>> clientCache, Map<String, List<String>> dataIdCache){
 		List<String> dataIdList = clientCache.get(client);
 		for(String dataId: dataIdList){

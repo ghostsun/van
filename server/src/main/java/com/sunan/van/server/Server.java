@@ -16,7 +16,7 @@ import com.sunan.van.server.register.ClientRegister;
 
 public class Server {
 //	private AcceptedManager acceptedManager;
-	ApplicationContext context = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+	private static final ApplicationContext context = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
 	private final static Server instance = new Server();
 	@SuppressWarnings("unchecked")
 	private VanFilterChain<Message> vanFilterChain = context.getBean(VanFilterChain.class);
@@ -109,6 +109,10 @@ public class Server {
 	}
 	protected void setVanServerconfig(VanServerConfig vanServerconfig) {
 		this.vanServerconfig = vanServerconfig;
+	}
+	
+	public static ApplicationContext getContext(){
+		return context;
 	}
 
 	

@@ -113,5 +113,9 @@
 	<module>common</module>
     <module>server</module>
     <module>client</module>
+	<!--
+	<module>configclient</module>
+	<module>configserver</module>
+	-->
   </modules>
 </project>
